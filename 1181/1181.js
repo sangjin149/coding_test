@@ -5,6 +5,6 @@ const input = require("fs")
     .toString()
     .trim()
     .split("\n")
-    .map((str) => str.trim().split(" ").map(Number));
+    .map();
 
 solution(...input);
