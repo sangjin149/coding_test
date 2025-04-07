@@ -7,4 +7,4 @@ const input = require("fs")
     .split("\n")
     .map();
 
-solution(...input);
+solution(input);
