@@ -18,7 +18,10 @@ function binarySearch(item, arr) {
 }
 
 function solution(input) {
-    const inspectList = input[1].split(" ").map(Number).sort();
+    const inspectList = input[1]
+        .split(" ")
+        .map(Number)
+        .sort((a, b) => a - b);
     const candidateList = input[3].split(" ").map(Number);
     const answers = [];
     candidateList.forEach((item) => answers.push(binarySearch(item, inspectList)));
