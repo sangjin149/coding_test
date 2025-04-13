@@ -1,28 +1,29 @@
 class Stack {
-    contructor() {
+    constructor() {
         this.value = [];
-        this.size = 0;
+        this.length = 0;
     }
 
     push(value) {
-        this.value[this.size] = value;
-        this.size++;
+        this.value[this.length] = value;
+        this.length++;
     }
 
     pop() {
-        if (this.size) this.size--;
-        return this.value[this.size] ?? -1;
+        if (this.length === 0) return -1;
+        this.length--;
+        return this.value[this.length];
     }
 
     size() {
-        return this.size;
+        return this.length;
     }
 
     empty() {
-        return this.size > 0 ? 0 : 1;
+        return this.length > 0 ? 0 : 1;
     }
 
     top() {
-        return this.value[this.size - 1] ?? -1;
+        return this.value[this.length - 1] ?? -1;
     }
 }
