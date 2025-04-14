@@ -15,19 +15,24 @@ class CircularLinkdedList {
 
     append(value) {
         const newNode = new Node(value);
+
         if (this.size === 0) {
             this.head = newNode;
-        } else {
-            this.tail.next = newNode;
+            this.tail = newNode;
         }
+
+        const oldTail = this.tail;
+
+        oldTail.next = newNode;
+        newNode.prev = oldTail;
         newNode.next = this.head;
-        newNode.prev = this.tail;
+        this.head.prev = newNode;
         this.tail = newNode;
         this.size++;
     }
 
     delete(node) {
-        if (this.size === 0) return -1;
+        if (this.size === 0) return;
         node.prev.next = node.next;
         node.next.prev = node.prev;
         this.size--;
