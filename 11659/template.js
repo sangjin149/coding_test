@@ -9,8 +9,8 @@ function solution(input) {
 
     const orderList = input.slice(2).map((str) => str.split(" ").map(Number));
     const result = [];
-    console.log(orderList);
-    orderList.forEach(([start, end]) => result.push(numList[end] - numList[start - 1]));
+    orderList.forEach(([start, end]) => result.push(accumulationList[end] - accumulationList[start - 1]));
+    console.log(result.join("\n"));
 }
 
 const input = require("fs")
