@@ -1,38 +1,29 @@
-function solution(input) {
-    const connections = input.slice(2).map((str) => str.split(" ").map(Number));
-    const networkList = [];
+function BFS(graph, start) {
+    const queue = [start];
+    const visited = [start];
 
-    while (connections.length > 0) {
-        const connection = connections.shift();
-        let includedInNetwork = false;
-
-        for (let i = 0; i < networkList.length; i++) {
-            const network = networkList[i];
-            if (network.has(connection[0]) || network.has(connection[1])) {
-                network.add(connection[0]);
-                network.add(connection[1]);
-                includedInNetwork = true;
-                break;
+    while (queue.length > 0) {
+        const current = queue.pop();
+        const nextNodes = graph[current];
+        for (const next of nextNodes) {
+            if (!visited.includes(next)) {
+                visited.push(next);
+                queue.unshift(next);
             }
         }
-
-        if (!includedInNetwork) {
-            const newNetwork = new Set();
-            newNetwork.add(connection[0]);
-            newNetwork.add(connection[1]);
-            networkList.push(newNetwork);
-        }
     }
+    console.log(visited.length - 1);
+}
 
-    let result = 0;
-    while (networkList.length > 0) {
-        const network = networkList.shift();
-        if (network.has(1)) {
-            result = network.size - 1;
-            break;
-        }
-    }
-    console.log(result);
+function solution(input) {
+    const graph = new Array(parseInt(input[0]) + 1).fill().map(() => []);
+    const linkList = input.slice(2).map((str) => str.split(" ").map(Number));
+    linkList.forEach(([start, end]) => {
+        graph[start].push(end);
+        graph[end].push(start);
+    });
+
+    BFS(graph, 1);
 }
 
 const input = require("fs")
