@@ -34,10 +34,6 @@ function divideArea(inputGraph) {
 }
 
 function DNC(graph) {
-    if (graph.length === 1) {
-        return graph[0][0] === 1 ? [1, 0] : [0, 1];
-    }
-
     const dividedGraphs = divideArea(graph);
     const nextAreas = [];
     let blue = 0;
@@ -45,15 +41,15 @@ function DNC(graph) {
     dividedGraphs.forEach((graph) => {
         const checkResult = checkArea(graph);
         if (checkResult === null) nextAreas.push(graph);
-        if (checkResult === 0) blue++;
-        if (checkResult === 1) white++;
+        if (checkResult === 0) white++;
+        if (checkResult === 1) blue++;
     });
     nextAreas.forEach((graph) => {
-        const [childBlue, childWhite] = DNC(graph);
+        const [childWhite, childBlue] = DNC(graph);
         blue += childBlue;
         white += childWhite;
     });
-    return [blue, white];
+    return [white, blue];
 }
 
 function solution(input) {
@@ -62,8 +58,8 @@ function solution(input) {
 
     let firstCheck = checkArea(graph);
     if (firstCheck !== null) {
-        if (firstCheck === 0) return console.log("0\n1");
-        if (firstCheck === 1) return console.log("1\n0");
+        if (firstCheck === 0) return console.log("1\n0");
+        if (firstCheck === 1) return console.log("0\n1");
     }
     console.log(DNC(graph).join("\n"));
 }
