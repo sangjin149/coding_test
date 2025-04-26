@@ -1,53 +1,35 @@
-function BFS(nodes, startIdx, targetNum) {
-    const queue = [startIdx];
-    const visited = [];
-    while (queue.length > 0) {
-        const currentIdx = queue.shift();
-        visited.push(currentIdx);
-        if (targetNum === currentIdx) return true;
-        new Array.from(nodes[currentIdx]).forEach((idx) => {
-            if (!visited.includes(idx)) queue.push(idx);
-        });
-    }
-    return false;
-}
-
 function solution(input) {
+    const [N, M] = input[0].split(" ").map(Number);
     const connections = input.slice(1).map((str) => str.split(" ").map(Number));
-
-    const nodes = [];
-
-    while (connections.length > 0) {
-        const [node1, node2] = connections.shift();
-
-        if (nodes[node1]) nodes[node1].add(node2);
-        else nodes[node1] = new Set().add(node2);
-
-        if (nodes[node2]) nodes[node2].add(node1);
-        else nodes[node2] = new Set().add(node1);
-    }
-
-    const checkedIdx = new Array(nodes.length).fill(false);
-    checkedIdx[0] = true;
+    const nodes = new Array(N + 1).fill(false).map(() => []);
     let result = 0;
 
-    nodes.forEach((_, idx) => {
-        console.log(`${idx}: ${checkedIdx.join(" ")}`);
-        if (idx === 0 || checkedIdx[idx]) return;
-        const idxQueue = [idx];
-        while (idxQueue.length > 0) {
-            console.log(idxQueue);
-            const currentIdx = idxQueue.shift();
-            if (!checkedIdx[currentIdx]) {
-                checkedIdx[currentIdx] = true;
-                Array.from(nodes[currentIdx]).forEach((idx) => {
-                    idxQueue.push(idx);
-                    checkedIdx[idx] = true;
-                });
+    connections.forEach(([node1, node2]) => {
+        nodes[node1].push(node2);
+        nodes[node2].push(node1);
+    });
+
+    const checkedHistory = new Array(nodes.length + 1).fill(false);
+
+    function BFS(startIndex) {
+        const queue = [startIndex];
+        while (queue.length > 0) {
+            const currentIndex = queue.shift();
+            for (const nodeIndex of nodes[currentIndex]) {
+                if (!checkedHistory[nodeIndex]) {
+                    checkedHistory[nodeIndex] = true;
+                    queue.push(nodeIndex);
+                }
             }
         }
-        result++;
-    });
+    }
+
+    for (let i = 1; i < nodes.length; i++) {
+        if (!checkedHistory[i]) {
+            BFS(i);
+            result++;
+        }
+    }
 
     console.log(result);
 }
