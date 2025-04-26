@@ -33,3 +33,11 @@ const input = require("fs")
     .trim();
 
 solution(input);
+
+// queue 배열을 직접 관리.
+
+// head++ 방식으로 큐를 "앞에서 빼는 것처럼" 만듦.
+
+// 사실상 shift()를 안 쓰고, 인덱스만 움직이는 것.
+
+// 시간 복잡도: O(1)로 매우 빠름.
