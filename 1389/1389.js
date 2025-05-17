@@ -1,50 +1,44 @@
 function solution(input) {
     const [N, M] = input[0].split(" ").map(Number);
-    const connectionStrList = input.slice(1);
-    const graph = new Array(N + 1).fill(true).map(() => new Array());
+    const graph = Array.from({ length: N + 1 }, () => []);
 
-    for (const connection of connectionStrList) {
-        const [node1, node2] = connection.split(" ").map(Number);
-        graph[node1].push(node2);
-        graph[node2].push(node1);
+    for (let i = 1; i <= M; i++) {
+        const [a, b] = input[i].split(" ").map(Number);
+        graph[a].push(b);
+        graph[b].push(a);
     }
-    console.log(graph);
-    // function search(start, end) {
-    //     const queue = [[start, 0]];
-    //     const visited = new Array(N + 1).fill(false);
-    //     let cursor = 0;
 
-    //     while (queue.length > cursor) {
-    //         const [current, distance] = queue[cursor++];
-    //         for (let i = 1; i <= N; i++) {
-    //             if (visited[i]) continue;
-    //             if (graph[current][i]) {
-    //                 if (i === end) return distance + 1;
-    //                 visited[i] = true;
-    //                 queue.push([i, distance + 1]);
-    //             }
-    //         }
-    //     }
+    function bfs(start) {
+        const dist = Array(N + 1).fill(Infinity);
+        const queue = [start];
+        dist[start] = 0;
 
-    //     return N + 1;
-    // }
+        while (queue.length) {
+            const cur = queue.shift();
+            for (const next of graph[cur]) {
+                if (dist[next] === Infinity) {
+                    dist[next] = dist[cur] + 1;
+                    queue.push(next);
+                }
+            }
+        }
 
-    // const lengthList = new Array(N + 1).fill(true).map(() => new Array(N + 1).fill(0));
-    // let minCur = N + 1;
-    // let result = N + 1;
+        // 시작 노드를 제외하고 거리 합 계산
+        return dist.slice(1).reduce((sum, d) => sum + d, 0);
+    }
 
-    // for (let i = 1; i < N; i++) {
-    //     for (let j = i + 1; j <= N; j++) {
-    //         const searchResult = search(i, j);
-    //         lengthList[i][j] = searchResult;
-    //         lengthList[j][i] = searchResult;
-    //     }
-    //     const lengthSum = lengthList[i].reduce((acc, cur) => acc + cur, 0);
-    //     if (minCur > lengthSum) {
-    //         minCur = lengthSum;
-    //         result = i;
-    //     }
-    // }
+    let result = 0;
+    let minSum = Infinity;
+
+    for (let i = 1; i <= N; i++) {
+        const sum = bfs(i);
+        if (sum < minSum) {
+            minSum = sum;
+            result = i;
+        }
+    }
+
+    console.log(result);
 }
 
 const input = require("fs")
