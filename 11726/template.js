@@ -1,9 +1,12 @@
 function solution(input) {
     const n = Number(input);
-    const nums = [0, 1, 2];
+    const nums = Array(1001);
+    nums[0] = 0;
+    nums[1] = 1;
+    nums[2] = 2;
 
     for (let i = 3; i <= n; i++) {
-        nums[i] = nums[i - 1] + nums[i - 2];
+        nums[i] = (nums[i - 1] + nums[i - 2]) % 10007;
     }
 
     console.log(nums[n]);
