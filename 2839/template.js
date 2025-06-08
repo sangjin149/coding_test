@@ -1,22 +1,15 @@
 function solution(input) {
     const N = Number(input);
-
     let result = -1;
-    let bag5 = 0;
-    let bag3 = 0;
-    let leftOver = 0;
-    let i = 0;
+    const maxBag5 = Math.floor(N / 5);
 
-    while (leftOver < N && i < 3) {
-        bag5 = Math.floor(N / 5) - i;
-        leftOver = N - 5 * bag5;
-        if (leftOver % 3 !== 0) {
-            i++;
-            continue;
-        }
-        result = bag5 + leftOver / 3;
+    for (let i = 0; i < 3 && 5 * i < N; i++) {
+        const bag3 = (N - 5 * (maxBag5 - i)) / 3;
+        if (bag3 % 1 !== 0) continue;
+        result = maxBag5 - i + bag3;
         break;
     }
+
     console.log(result);
 }
 
