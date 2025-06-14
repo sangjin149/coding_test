@@ -1,14 +1,17 @@
 function solution(input) {
     const [ascend, decend, target] = input.split(" ").map(Number);
-    let current = 0;
-    let day = 1;
-    while (current < target) {
-        current += ascend;
-        if (current > target) break;
-        day++;
-        current -= decend;
+
+    if (ascend === target) {
+        console.log(1);
+        return;
     }
-    console.log(day);
+
+    if ((target - ascend) % (ascend - decend) === 0) {
+        console.log(1 + (target - ascend) / (ascend - decend));
+        return;
+    }
+
+    console.log(Math.ceil(target / (ascend - decend)));
 }
 
 const input = require("fs")
