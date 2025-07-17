@@ -1,7 +1,7 @@
 function solution(input) {
     const [N, M] = input[0].split(" ").map(Number);
-    const graph = Array({ length: N });
-    const visited = Array({ length: N }, () => Array(M).fill(false));
+    const graph = Array(N);
+    const visited = Array.from({ length: N }, () => Array(M).fill(false));
     let startPoint = null;
 
     for (let i = 0; i < N; i++) {
@@ -28,9 +28,10 @@ function solution(input) {
     while (queue.length > cursor) {
         const currX = queue[cursor++];
         const currY = queue[cursor++];
+
         for (const [dx, dy] of dps) {
-            const nextX = currY + dx;
-            const nextY = currX + dy;
+            const nextX = currX + dx;
+            const nextY = currY + dy;
 
             if (nextX < 0 || nextX >= N) continue;
             if (nextY < 0 || nextY >= M) continue;
@@ -38,12 +39,15 @@ function solution(input) {
 
             visited[nextX][nextY] = true;
             const nextEntity = graph[nextX][nextY];
-            switch (nextEntity) {
-                case "O":
-                    queue.push(nextX, nextY);
+
+            if (nextEntity === "P" || nextEntity === "O") {
+                if (nextEntity === "P") result++;
+                queue.push(nextX, nextY);
             }
         }
     }
+
+    console.log(result === 0 ? "TT" : result);
 }
 
 const input = require("fs")
