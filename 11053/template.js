@@ -1,7 +1,18 @@
 function solution(input) {
-    const N = Number(input[0]);
-    const numArr = input[1].split(" ").map(Number);
-    console.log(numArr);
+    const tails = [];
+
+    for (let x of arr) {
+        let l = 0,
+            r = tails.length;
+        while (l < r) {
+            const m = (l + r) >> 1;
+            if (tails[m] < x) l = m + 1;
+            else r = m;
+        }
+        tails[l] = x;
+    }
+
+    console.log(tails.length);
 }
 
 const input = require("fs")
